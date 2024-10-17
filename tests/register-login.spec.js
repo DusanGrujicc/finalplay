@@ -1,16 +1,17 @@
 import { test, expect } from "@playwright/test";
 import { RegisterPage } from "../pom/api/ui/registerPage";
 import { LoginPage } from "../pom/api/ui/loginPage";
-import { URLS , HEADING} from "../fixtures/pages";
+import { HEADING} from "../fixtures/pageText";
 import { generateUserCredentials } from "../fixtures/userData";
+import { ENDPOINTS } from "../fixtures/http";
 
 
 let  loginEmail , loginPassword
 test.describe.configure({ mode: "serial" });
-test.describe("register a user", ()=>{
+test.describe("register and login user", ()=>{
     
     test.beforeEach('Visit Home Page and instantiate class', async ({ page }) => {
-        await page.goto(`${URLS.REGISTER}`);
+        await page.goto(ENDPOINTS.REGISTER);
         await expect(page).toHaveURL(/.*register/);
     });
 
@@ -20,16 +21,16 @@ test.describe("register a user", ()=>{
         loginPassword = password
         const registerPage = new RegisterPage(page);
 
-        await page.goto(URLS.REGISTER);
+        await page.goto(ENDPOINTS.REGISTER);
         await expect(page.locator('h1')).toBeVisible();
 
         registerPage.register(username,email,password);
 
-        await page.waitForURL(URLS.DASHBOARD)
+        await page.waitForURL(ENDPOINTS.DASHBOARD)
         await expect(page.getByText(HEADING.DASHBOARD)).toBeVisible();
     })
     test("log in with registered user", async ({ page }) => {
-        await page.goto(URLS.LOGIN);
+        await page.goto(ENDPOINTS.LOGIN);
         await expect(page.locator("h1")).toBeVisible();
         await expect(page.locator("h1")).toHaveText(HEADING.LOGIN);
     
@@ -37,7 +38,11 @@ test.describe("register a user", ()=>{
     
         loginPage.login(loginEmail, loginPassword);
     
-        await page.waitForURL(URLS.DASHBOARD);
+        await page.waitForURL(ENDPOINTS.DASHBOARD);
         await expect(page.getByText(HEADING.DASHBOARD)).toBeVisible();
       });
+      
+    test("update shipping info ", async({page})=>{
+        
+    })
 })
