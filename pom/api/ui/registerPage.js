@@ -1,11 +1,11 @@
-export class RegistePage {
+export class RegisterPage {
     constructor (page){
         this.page = page 
         this.heading = page.locator('h1');
         this.usernameInput = page.locator('#username');
         this.passwordInput = page.locator('#password');
         this.emailInput = page.locator('#email');
-        this.submitButton = page.locator('#button');
+        this.submitButton = page.locator('button');
     }
 
     async register(username,email,password){
